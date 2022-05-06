@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>A simple ToDo Application</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link rel="stylesheet" type="text/css" href="{% static 'app.css' %}">
+</head>
+<body>
+    <div django-app="TaskManager">        
+        <div class="container">
+            <div class="content">
+            <h1>Emmanuel Dada</h1>
+            <p class="tagline">A Todo Application built in Django</p>
+            <form action="" method="post">
+            {% csrf_token %}
+                <div class="inputContainer">
+                    <input type="text" id="name_of_task" class="taskName" placeholder="Enter activity name" name="name_of_task" required>
+                    <label for="name_of_task">Activity Name</label>
+                </div>
+                <div class="inputContainer half last">
+                    <i class="fa fa-caret-down selectArrow"></i>
+                    <select id="category" class="taskCategory" name="category_select">
+                    <option class="disabled" value="">Choose a category</option>
+                    {% for category in categories %}
+                        <option class="" value="{{ category.type }}" name="{{ category.type }}">{{ category.type }}</option>
+                    {% endfor %}
+                    </select>
+                    <label for="category">Category</label>
+                </div>
+                <div class="inputContainer half last right">
+                    <input type="date" id="deadline" class="taskDate" name="deadline">
+                    <label for="deadline">Deadline</label>
+                </div>
+                <div class="row">
+                    <button class="Addtask" name="Addtask" type="submit"><i class="fa fa-plus icon"></i>Add Tasks</button>
+                    <button class="Deletetask" name="Deletetask" formnovalidate="" type="submit" onclick="$('input#sublist').click();"><i class="fa fa-trash-o icon"></i>Delete Tasks</button>
+                </div>
+            <ul class="taskList">
+                {% for todo in PendingTask %}
+                    <li class="taskItem">
+                        <input type="checkbox" class="taskCheckbox" name="checkedbox" id="{{ todo.id }}" value="{{ todo.id }}">
+                        <label for="{{ todo.id }}"><span class="complete-">{{ todo.name_of_task }}</span></label>
+                        <span class="category-{{ todo.category }}">{{ todo.category }}</span>
+                        <strong class="taskDate"><i class="fa fa-calendar"></i>{{ todo.date_started }} - {{ todo.due_date }}</strong>
+                    </li>
+                {% endfor %}
+            </ul>
+            </form>
+            </div>
+        </div>
+    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</body>
+</html>
